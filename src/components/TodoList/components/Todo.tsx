@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Checkbox from '../../elements/Checkbox';
-import deleteIcon from '../../../../assets/icons/delete.svg';
-import editIcon from '../../../../assets/icons/edit.svg';
-import doneIcon from '../../../../assets/icons/done.svg';
-import cancelIcon from '../../../../assets/icons/cancel.svg';
+import Checkbox from './Checkbox';
+import deleteIcon from '../../../assets/icons/delete.svg';
+import editIcon from '../../../assets/icons/edit.svg';
+import doneIcon from '../../../assets/icons/done.svg';
+import cancelIcon from '../../../assets/icons/cancel.svg';
 
 interface ITodoProps {
     title: string;

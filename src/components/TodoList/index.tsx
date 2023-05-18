@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { ITodo, todos, TodosType } from '../../models/todo.model';
 import Count from './components/Count';
+import Filters from './components/Filters';
 import NewTodo from './components/NewTodo';
 import Todo from './components/Todo';
 
@@ -31,25 +32,6 @@ const TodoList: React.FC<ITodoListProps> = () => {
         },
         [filter]
     );
-
-    useEffect(() => {
-        switch (filter) {
-            case 'active':
-                return setFilteredTodoList(todoList.filter(el => !el.completed));
-            case 'completed':
-                return setFilteredTodoList(todoList.filter(el => el.completed));
-            default:
-                return setFilteredTodoList(todoList);
-        }
-    }, [filter, todoList]);
-
-    useMemo(() => {
-        getFromLocalStorage();
-    }, []);
-
-    useEffect(() => {
-        setToLocalStorage(todoList);
-    }, [filter, setToLocalStorage, todoList]);
 
     const removeTodo = (id: string) => {
         const updatedTodos = todoList.filter(el => el.id !== id);
@@ -82,17 +64,36 @@ const TodoList: React.FC<ITodoListProps> = () => {
         setTodoList(updatedTodos);
     };
 
+    const handleSetFilter = (filter: FilterType) => {
+        setFilter(filter);
+    };
+
+    useEffect(() => {
+        switch (filter) {
+            case 'active':
+                return setFilteredTodoList(todoList.filter(el => !el.completed));
+            case 'completed':
+                return setFilteredTodoList(todoList.filter(el => el.completed));
+            default:
+                return setFilteredTodoList(todoList);
+        }
+    }, [filter, todoList]);
+
+    useEffect(() => {
+        setToLocalStorage(todoList);
+    }, [filter, setToLocalStorage, todoList]);
+
+    useMemo(() => {
+        getFromLocalStorage();
+    }, []);
+
     return (
         <STodoWrapper>
             <SHeader>
                 <SH1>TODO LIST</SH1>
                 <NewTodo addTodo={addTodo} />
             </SHeader>
-            <SFilters>
-                <SFilter onClick={() => setFilter('all')}>Show all</SFilter>
-                <SFilter onClick={() => setFilter('active')}>Show active</SFilter>
-                <SFilter onClick={() => setFilter('completed')}>Show completed</SFilter>
-            </SFilters>
+            <Filters setFilter={handleSetFilter} />
             <STodoList>
                 <Count currentTodos={filter} value={filteredTodoList.length} />
                 {filteredTodoList.map(todo => {
@@ -139,26 +140,4 @@ const SHeader = styled.div`
 const STodoWrapper = styled.div`
     margin: 10vh 20vw;
     color: #003049;
-`;
-
-const SFilters = styled.div`
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    align-items: center;
-    background-color: #669bbc;
-    padding: 20px 40px;
-    border-radius: 10px;
-    margin-bottom: 10px;
-`;
-
-const SFilter = styled.div`
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 20px;
-    background-color: #fdf0d5;
-    border-radius: 10px;
-    &:hover {
-        transform: scale(1.1);
-    }
 `;

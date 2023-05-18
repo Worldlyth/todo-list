@@ -13,7 +13,7 @@ const Checkbox: React.FC<ICheckboxProps> = props => {
 
     return (
         <SCheckbox>
-            <SCheckboxIcon onClick={onClick} src={isChecked ? checkboxFilled : checkboxBlank} alt='blank checkbox' />
+            <SCheckboxIcon onClick={onClick} src={isChecked ? checkboxFilled : checkboxBlank} />
         </SCheckbox>
     );
 };
